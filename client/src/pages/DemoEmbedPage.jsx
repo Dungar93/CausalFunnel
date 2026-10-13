@@ -3,7 +3,9 @@ import { ExternalLink, RefreshCw, ShoppingBag, Info, CheckCircle2 } from 'lucide
 
 export default function DemoEmbedPage() {
   const [iframeKey, setIframeKey] = useState(0);
-  const demoUrl = 'http://localhost:5000/tracker/demo.html';
+  const apiBase = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
+  const backendBase = apiBase.replace(/\/api\/?$/, '');
+  const demoUrl = `${backendBase}/tracker/demo.html`;
 
   const reloadIframe = () => {
     setIframeKey((prev) => prev + 1);

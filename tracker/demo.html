@@ -374,7 +374,7 @@
         <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
         <span class="font-bold text-slate-200">Analytics Live HUD</span>
       </div>
-      <a href="http://localhost:5173" target="_blank" class="text-indigo-400 hover:underline flex items-center gap-1 font-sans font-medium text-[11px]">
+      <a id="hud-dashboard-link" href="https://causal-funnel-steel.vercel.app" target="_blank" class="text-indigo-400 hover:underline flex items-center gap-1 font-sans font-medium text-[11px]">
         Dashboard <i class="fa-solid fa-arrow-up-right-from-square text-[9px]"></i>
       </a>
     </div>
@@ -401,9 +401,21 @@
   <!-- Include Analytics Tracker Script -->
   <script src="./tracker.js"></script>
   <script>
+    // Dynamically resolve target API URL
+    var isLocal = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+    var apiTarget = isLocal
+      ? 'http://localhost:5000/api/events'
+      : window.location.origin + '/api/events';
+
+    // If local, update dashboard link to local port 5173
+    if (isLocal) {
+      var dashLink = document.getElementById('hud-dashboard-link');
+      if (dashLink) dashLink.href = 'http://localhost:5173';
+    }
+
     // Initialize the Analytics Tracker
     AnalyticsTracker.init({
-      apiUrl: 'http://localhost:5000/api/events',
+      apiUrl: apiTarget,
       debug: true
     });
 

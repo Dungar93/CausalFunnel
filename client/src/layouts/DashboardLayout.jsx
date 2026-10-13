@@ -174,7 +174,11 @@ export default function DashboardLayout({ onRefreshAll }) {
           </NavLink>
 
           <a
-            href="http://localhost:5000/tracker/demo.html"
+            href={
+              import.meta.env.VITE_API_URL
+                ? import.meta.env.VITE_API_URL.replace(/\/api\/?$/, '') + '/tracker/demo.html'
+                : 'http://localhost:5000/tracker/demo.html'
+            }
             target="_blank"
             rel="noopener noreferrer"
             className="flex items-center justify-between px-3.5 py-2.5 rounded-xl text-xs font-medium text-slate-600 hover:bg-slate-50 hover:text-slate-900 transition"
