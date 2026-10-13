@@ -245,3 +245,69 @@ describe('GET /api/heatmap', () => {
     expect(res.body.clicks[0].viewport.width).toBe(1440);
   });
 });
+
+describe('GET /api/funnel', () => {
+  it('should return conversion funnel stages with accurate drop-off rates', async () => {
+    await Event.create([
+      { session_id: 'sess_f1', event_type: 'page_view', page_url: 'http://localhost:5000/demo.html', timestamp: new Date() },
+      { session_id: 'sess_f1', event_type: 'click', page_url: 'http://localhost:5000/demo.html', timestamp: new Date(), coordinates: { x: 310, y: 580 } },
+      { session_id: 'sess_f2', event_type: 'page_view', page_url: 'http://localhost:5000/demo.html', timestamp: new Date() },
+    ]);
+
+    const res = await request(app).get('/api/funnel');
+    expect(res.status).toBe(200);
+    expect(res.body.success).toBe(true);
+    expect(res.body.totalSessions).toBe(2);
+    expect(res.body.stages.length).toBe(4);
+    expect(res.body.stages[0].id).toBe('visitors');
+    expect(res.body.stages[0].count).toBe(2);
+    expect(res.body.stages[1].count).toBe(1);
+  });
+});
+
+describe('GET /api/events/recent', () => {
+  it('should return the latest events ordered by timestamp descending', async () => {
+    const t1 = new Date('2026-10-14T00:01:00Z');
+    const t2 = new Date('2026-10-14T00:02:00Z');
+
+    await Event.create([
+      { session_id: 'sess_r1', event_type: 'page_view', page_url: 'http://localhost:5000/demo.html', timestamp: t1 },
+      { session_id: 'sess_r2', event_type: 'page_view', page_url: 'http://localhost:5000/demo.html', timestamp: t2 },
+    ]);
+
+    const res = await request(app).get('/api/events/recent?limit=10');
+    expect(res.status).toBe(200);
+    expect(res.body.count).toBe(2);
+    expect(res.body.events[0].session_id).toBe('sess_r2');
+  });
+});
+
+describe('POST /api/simulate', () => {
+  it('should generate simulated shopper sessions and persist events in MongoDB', async () => {
+    const res = await request(app).post('/api/simulate').send({ count: 2 });
+    expect(res.status).toBe(201);
+    expect(res.body.success).toBe(true);
+    expect(res.body.sessions.length).toBe(2);
+    expect(res.body.insertedEvents).toBeGreaterThan(0);
+
+    const count = await Event.countDocuments({});
+    expect(count).toBe(res.body.insertedEvents);
+  });
+});
+
+describe('GET /api/sessions/export/csv', () => {
+  it('should return a downloadable CSV with session data and text/csv headers', async () => {
+    await Event.create({
+      session_id: 'sess_csv_1',
+      event_type: 'page_view',
+      page_url: 'http://localhost:5000/demo.html',
+      timestamp: new Date(),
+    });
+
+    const res = await request(app).get('/api/sessions/export/csv');
+    expect(res.status).toBe(200);
+    expect(res.headers['content-type']).toContain('text/csv');
+    expect(res.text).toContain('Session ID,Total Events,Page Views,Clicks');
+    expect(res.text).toContain('sess_csv_1');
+  });
+});

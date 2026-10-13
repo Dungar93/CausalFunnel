@@ -250,22 +250,29 @@ export default function OverviewPage() {
               Open the Aura Store e-commerce demo in a new browser window. Click products, navigate categories, and watch the sessions table and heatmap update in real-time.
             </p>
           </div>
-          <div className="pt-6 flex flex-wrap gap-3">
+          <div className="pt-6 flex flex-wrap gap-2.5">
             <a
               href="http://localhost:5000/tracker/demo.html"
               target="_blank"
               rel="noopener noreferrer"
-              className="bg-indigo-500 hover:bg-indigo-400 text-white text-xs font-semibold px-4 py-2.5 rounded-xl shadow-md transition flex items-center gap-1.5"
+              className="bg-indigo-500 hover:bg-indigo-400 text-white text-xs font-semibold px-3.5 py-2 rounded-xl shadow-md transition flex items-center gap-1.5"
             >
               <span>Launch Demo Page</span>
               <ArrowUpRight className="w-3.5 h-3.5" />
             </a>
             <Link
+              to="/funnel"
+              className="bg-white/10 hover:bg-white/20 text-white text-xs font-semibold px-3.5 py-2 rounded-xl border border-white/20 transition flex items-center gap-1.5"
+            >
+              <TrendingUp className="w-3.5 h-3.5 text-emerald-300" />
+              <span>Conversion Funnel</span>
+            </Link>
+            <Link
               to="/heatmap"
-              className="bg-white/10 hover:bg-white/20 text-white text-xs font-semibold px-4 py-2.5 rounded-xl border border-white/20 transition flex items-center gap-1.5"
+              className="bg-white/10 hover:bg-white/20 text-white text-xs font-semibold px-3.5 py-2 rounded-xl border border-white/20 transition flex items-center gap-1.5"
             >
               <Flame className="w-3.5 h-3.5 text-amber-300" />
-              <span>Explore Heatmap</span>
+              <span>Heatmap</span>
             </Link>
           </div>
         </div>

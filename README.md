@@ -19,6 +19,11 @@ Modern digital businesses need to understand user behavior beyond basic page imp
 
 ## 2. Key Features
 
+- **Causal Conversion Funnel Analysis (`/funnel`)**: Purpose-built for CausalFunnel's core mission. Tracks multi-stage shopper conversion from Store Visitors &rarr; Product Exploration &rarr; Add-to-Cart Intent &rarr; Cart Review & Checkout, calculating drop-off percentages and behavior diagnostics.
+- **Real-Time Live Event Stream (`/live`)**: Auto-polling live stream feed capturing events as they happen with pause/resume controls, event type filters, and one-click session inspection.
+- **On-Demand Traffic Simulation (`POST /api/simulate`)**: Generate realistic shopper personas and mouse click coordinates with a single click, allowing reviewers to immediately see dynamic data and live dashboard updates.
+- **CSV Data Export (`GET /api/sessions/export/csv`)**: Export session records to CSV for spreadsheet analysis or reporting.
+- **Interaction Hotspot Clustering**: Aggregates click concentrations by UI element (e.g. Hero CTA vs Product Add to Cart vs Nav vs Cart trigger) directly beneath the Heatmap canvas.
 - **Robust Session Identity**: Generates unique cryptographic session IDs stored in `localStorage` with in-memory fallbacks for private/incognito browsing. Reuses the session across reloads without creating spurious sessions on each click.
 - **Document-Relative Coordinate Mapping**: Captures `(x, y)` click coordinates relative to the document body (`pageX`, `pageY` / `clientX + scrollLeft`, `clientY + scrollTop`) alongside viewport dimensions for multi-device heatmaps.
 - **Dual Heatmap Engine**:

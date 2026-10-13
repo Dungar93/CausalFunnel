@@ -20,3 +20,21 @@ export async function createEventHandler(req, res, next) {
     next(err);
   }
 }
+
+export async function getRecentEventsHandler(req, res, next) {
+  try {
+    const limit = Math.min(100, Math.max(1, parseInt(req.query.limit, 10) || 25));
+    const events = await (await import('../models/Event.js')).default.find({})
+      .sort({ timestamp: -1 })
+      .limit(limit)
+      .lean();
+
+    return res.status(200).json({
+      success: true,
+      count: events.length,
+      events,
+    });
+  } catch (err) {
+    next(err);
+  }
+}

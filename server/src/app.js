@@ -9,6 +9,8 @@ import sessionRoutes from './routes/sessionRoutes.js';
 import heatmapRoutes from './routes/heatmapRoutes.js';
 import healthRoutes from './routes/healthRoutes.js';
 import statsRoutes from './routes/statsRoutes.js';
+import funnelRoutes from './routes/funnelRoutes.js';
+import simulationRoutes from './routes/simulationRoutes.js';
 import { errorHandler } from './middleware/errorHandler.js';
 
 const __filename = fileURLToPath(import.meta.url);
@@ -64,6 +66,8 @@ app.use('/api/sessions', sessionRoutes);
 app.use('/api/heatmap', heatmapRoutes);
 app.use('/api/health', healthRoutes);
 app.use('/api/stats', statsRoutes);
+app.use('/api/funnel', funnelRoutes);
+app.use('/api/simulate', simulationRoutes);
 
 // Fallback 404 handler for unmatched API routes
 app.use('/api', (req, res) => {

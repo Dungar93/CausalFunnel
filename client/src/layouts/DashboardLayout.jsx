@@ -13,6 +13,8 @@ import {
   Database,
   CheckCircle2,
   AlertTriangle,
+  TrendingUp,
+  Radio,
 } from 'lucide-react';
 import { fetchHealth } from '../services/api';
 
@@ -48,6 +50,8 @@ export default function DashboardLayout({ onRefreshAll }) {
 
   const getPageTitle = () => {
     if (location.pathname === '/') return 'Analytics Overview';
+    if (location.pathname.startsWith('/funnel')) return 'Conversion Funnel Analysis';
+    if (location.pathname.startsWith('/live')) return 'Real-Time Interaction Stream';
     if (location.pathname.startsWith('/sessions')) return 'Session Explorer';
     if (location.pathname.startsWith('/heatmap')) return 'Click Heatmap';
     if (location.pathname.startsWith('/demo-store')) return 'Interactive Demo Store';
@@ -88,6 +92,37 @@ export default function DashboardLayout({ onRefreshAll }) {
           >
             <LayoutDashboard className="w-4 h-4" />
             <span>Overview</span>
+          </NavLink>
+
+          <NavLink
+            to="/funnel"
+            className={({ isActive }) =>
+              `flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs font-semibold transition ${
+                isActive
+                  ? 'bg-indigo-50 text-indigo-700 shadow-xs'
+                  : 'text-slate-600 hover:bg-slate-50 hover:text-slate-900'
+              }`
+            }
+          >
+            <TrendingUp className="w-4 h-4 text-indigo-600" />
+            <span>Conversion Funnel</span>
+          </NavLink>
+
+          <NavLink
+            to="/live"
+            className={({ isActive }) =>
+              `flex items-center justify-between px-3.5 py-2.5 rounded-xl text-xs font-semibold transition ${
+                isActive
+                  ? 'bg-indigo-50 text-indigo-700 shadow-xs'
+                  : 'text-slate-600 hover:bg-slate-50 hover:text-slate-900'
+              }`
+            }
+          >
+            <div className="flex items-center gap-3">
+              <Radio className="w-4 h-4 text-emerald-600" />
+              <span>Live Stream</span>
+            </div>
+            <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
           </NavLink>
 
           <NavLink
@@ -263,6 +298,20 @@ export default function DashboardLayout({ onRefreshAll }) {
                   className="block px-3 py-2 rounded-lg text-sm font-semibold text-slate-700 hover:bg-slate-50"
                 >
                   Overview
+                </NavLink>
+                <NavLink
+                  to="/funnel"
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="block px-3 py-2 rounded-lg text-sm font-semibold text-slate-700 hover:bg-slate-50"
+                >
+                  Conversion Funnel
+                </NavLink>
+                <NavLink
+                  to="/live"
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="block px-3 py-2 rounded-lg text-sm font-semibold text-slate-700 hover:bg-slate-50"
+                >
+                  Live Stream
                 </NavLink>
                 <NavLink
                   to="/sessions"

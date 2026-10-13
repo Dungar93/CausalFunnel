@@ -12,13 +12,15 @@ import {
   Copy,
   Check,
   Calendar,
+  Download,
+  Zap,
 } from 'lucide-react';
 import MetricCard from '../components/MetricCard';
 import { CardSkeleton, TableSkeleton } from '../components/LoadingSkeleton';
 import ErrorAlert from '../components/ErrorAlert';
 import EmptyState from '../components/EmptyState';
 import UserJourneyDrawer from '../components/UserJourneyDrawer';
-import { fetchSessions, fetchStatsSummary } from '../services/api';
+import { fetchSessions, fetchStatsSummary, simulateTraffic, getExportCsvUrl } from '../services/api';
 import { formatDate, formatTimeRelative, formatDuration } from '../utils/formatters';
 
 export default function SessionsPage() {
@@ -72,6 +74,31 @@ export default function SessionsPage() {
     navigator.clipboard.writeText(id);
     setCopiedId(id);
     setTimeout(() => setCopiedId(null), 2000);
+  };
+
+  const [simulating, setSimulating] = useState(false);
+  const [toastMessage, setToastMessage] = useState(null);
+
+  const showToast = (msg) => {
+    setToastMessage(msg);
+    setTimeout(() => setToastMessage(null), 3000);
+  };
+
+  const handleSimulate = async () => {
+    try {
+      setSimulating(true);
+      const res = await simulateTraffic(3);
+      showToast(`Generated ${res.sessions.length} realistic shopper sessions!`);
+      await loadData(1, searchTerm);
+    } catch (err) {
+      showToast('Simulation failed: ' + err.message);
+    } finally {
+      setSimulating(false);
+    }
+  };
+
+  const handleExportCsv = () => {
+    window.open(getExportCsvUrl(), '_blank');
   };
 
   return (
@@ -137,7 +164,26 @@ export default function SessionsPage() {
             <Search className="w-3.5 h-3.5 text-slate-400 absolute left-3 top-3" />
           </form>
 
-          <div className="flex items-center gap-2 w-full sm:w-auto justify-end">
+          <div className="flex items-center gap-2 w-full sm:w-auto justify-end flex-wrap">
+            <button
+              onClick={handleSimulate}
+              disabled={simulating}
+              className="px-3 py-2 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 border border-indigo-200 rounded-xl transition text-xs font-semibold flex items-center gap-1.5"
+              title="Simulate 3 realistic user sessions"
+            >
+              <Zap className={`w-3.5 h-3.5 text-indigo-600 ${simulating ? 'animate-spin' : ''}`} />
+              <span>{simulating ? 'Simulating...' : 'Simulate Shoppers'}</span>
+            </button>
+
+            <button
+              onClick={handleExportCsv}
+              className="px-3 py-2 border border-slate-200 hover:bg-slate-50 text-slate-700 rounded-xl transition text-xs font-semibold flex items-center gap-1.5"
+              title="Export all sessions to CSV"
+            >
+              <Download className="w-3.5 h-3.5 text-slate-500" />
+              <span>Export CSV</span>
+            </button>
+
             <button
               onClick={() => loadData(pagination.page, searchTerm)}
               className="p-2 border border-slate-200 hover:bg-slate-50 text-slate-600 rounded-xl transition text-xs font-semibold flex items-center gap-1.5"
@@ -298,6 +344,14 @@ export default function SessionsPage() {
         session={selectedSession}
         onClose={() => setSelectedSession(null)}
       />
+
+      {/* Toast Notification */}
+      {toastMessage && (
+        <div className="fixed bottom-6 right-6 z-50 bg-slate-900 text-white text-xs font-semibold px-4 py-3 rounded-2xl shadow-2xl border border-slate-700 flex items-center gap-2 animate-bounce">
+          <Check className="w-4 h-4 text-emerald-400" />
+          <span>{toastMessage}</span>
+        </div>
+      )}
     </div>
   );
 }

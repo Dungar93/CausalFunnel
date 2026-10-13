@@ -585,6 +585,76 @@ export default function HeatmapPage() {
         )}
       </div>
 
+      {/* Top Clicked Hotspots Breakdown Section */}
+      {clicks.length > 0 && (
+        <div className="bg-white rounded-2xl border border-slate-200/80 p-6 shadow-sm space-y-4">
+          <div className="flex items-center justify-between border-b border-slate-100 pb-3">
+            <div>
+              <h4 className="text-sm font-bold text-slate-900">Interaction Hotspot Clustering</h4>
+              <p className="text-xs text-slate-400">Aggregated click concentrations by UI component</p>
+            </div>
+            <span className="text-xs font-mono font-bold text-indigo-600 bg-indigo-50 px-3 py-1 rounded-full">
+              {clicks.length} Total Registered Clicks
+            </span>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+            {[
+              {
+                title: 'Headphones "Add to Cart"',
+                zone: 'x: 310, y: 580',
+                count: clicks.filter((c) => c.x >= 280 && c.x <= 340 && c.y >= 560 && c.y <= 600).length,
+                badge: 'Primary CTA',
+              },
+              {
+                title: 'Hero "Shop New Arrivals"',
+                zone: 'x: 720, y: 340',
+                count: clicks.filter((c) => c.x >= 690 && c.x <= 750 && c.y >= 320 && c.y <= 360).length,
+                badge: 'Hero Section',
+              },
+              {
+                title: 'Watch "Add to Cart"',
+                zone: 'x: 710, y: 640',
+                count: clicks.filter((c) => c.x >= 680 && c.x <= 740 && c.y >= 620 && c.y <= 660).length,
+                badge: 'Product Card 2',
+              },
+              {
+                title: 'Header Cart Trigger',
+                zone: 'x: 1280, y: 45',
+                count: clicks.filter((c) => c.x >= 1240 && c.y <= 80).length,
+                badge: 'Cart Nav',
+              },
+              {
+                title: 'Category Nav Links',
+                zone: 'y: ~160px',
+                count: clicks.filter((c) => c.y >= 140 && c.y <= 180).length,
+                badge: 'Header',
+              },
+              {
+                title: 'Newsletter / Footer',
+                zone: 'y: > 850px',
+                count: clicks.filter((c) => c.y >= 850).length,
+                badge: 'Footer',
+              },
+            ].map((item, i) => (
+              <div key={i} className="bg-slate-50 border border-slate-200/70 rounded-xl p-3.5 flex items-center justify-between">
+                <div>
+                  <div className="flex items-center gap-1.5">
+                    <span className="text-xs font-bold text-slate-800">{item.title}</span>
+                    <span className="text-[10px] text-slate-400 bg-white border border-slate-200 px-1.5 rounded">{item.badge}</span>
+                  </div>
+                  <span className="text-[11px] font-mono text-slate-400 block mt-0.5">{item.zone}</span>
+                </div>
+                <div className="text-right">
+                  <span className="text-base font-extrabold text-indigo-600 font-mono">{item.count}</span>
+                  <span className="text-[10px] text-slate-400 block">clicks</span>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
       {/* Floating Hover Indicator Banner */}
       {hoveredPoint && (
         <div className="fixed bottom-6 left-1/2 transform -translate-x-1/2 z-40 bg-slate-900 text-white px-5 py-2.5 rounded-2xl shadow-2xl border border-slate-700 font-mono text-xs flex items-center gap-4">

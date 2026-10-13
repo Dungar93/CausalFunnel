@@ -56,6 +56,29 @@ export async function fetchTrackedPages() {
   return handleResponse(res);
 }
 
+export async function fetchFunnelMetrics() {
+  const res = await fetch(`${BASE_URL}/funnel`);
+  return handleResponse(res);
+}
+
+export async function fetchRecentEvents(limit = 25) {
+  const res = await fetch(`${BASE_URL}/events/recent?limit=${limit}`);
+  return handleResponse(res);
+}
+
+export async function simulateTraffic(count = 3) {
+  const res = await fetch(`${BASE_URL}/simulate`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ count }),
+  });
+  return handleResponse(res);
+}
+
+export function getExportCsvUrl() {
+  return `${BASE_URL}/sessions/export/csv`;
+}
+
 export async function sendEvent(eventData) {
   const res = await fetch(`${BASE_URL}/events`, {
     method: 'POST',
