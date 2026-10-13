@@ -1,0 +1,30 @@
+{
+  "name": "causalfunnel-analytics-platform",
+  "version": "1.0.0",
+  "description": "Full-stack user interaction analytics platform with tracking script, session explorer, and heatmaps.",
+  "main": "server/src/server.js",
+  "scripts": {
+    "install:all": "npm install && npm install --prefix server && npm install --prefix client",
+    "dev": "concurrently -n \"SERVER,CLIENT\" -c \"blue,green\" \"npm run dev --prefix server\" \"npm run dev --prefix client\"",
+    "dev:server": "npm run dev --prefix server",
+    "dev:client": "npm run dev --prefix client",
+    "start": "node server/src/server.js",
+    "build": "npm run build --prefix client",
+    "test": "npm run test --prefix server && npm run test --prefix client",
+    "test:server": "npm run test --prefix server",
+    "test:client": "npm run test --prefix client",
+    "seed": "npm run seed --prefix server"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  },
+  "keywords": [
+    "analytics",
+    "session-tracking",
+    "heatmap",
+    "full-stack",
+    "causalfunnel"
+  ],
+  "author": "Antigravity Engineering",
+  "license": "ISC"
+}

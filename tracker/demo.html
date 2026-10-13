@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Aura Store - Premium Tech & Lifestyle</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap');
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+    }
+  </style>
+</head>
+<body class="bg-slate-50 text-slate-800 antialiased min-h-screen flex flex-col">
+
+  <!-- Top Announcement Bar -->
+  <div class="bg-indigo-600 text-white text-xs font-medium py-2 px-4 text-center flex items-center justify-center gap-2">
+    <span>🎉 Special Launch Sale: Get 20% off all orders with code <strong>CAUSAL20</strong></span>
+    <button id="announcement-cta" class="underline hover:text-indigo-200 transition">Shop Now</button>
+  </div>
+
+  <!-- Main Navigation Bar -->
+  <header class="bg-white border-b border-slate-200 sticky top-0 z-30 shadow-sm">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+      <!-- Logo -->
+      <div class="flex items-center gap-3">
+        <div class="w-10 h-10 bg-indigo-600 rounded-xl flex items-center justify-center text-white font-bold text-xl shadow-md shadow-indigo-100">
+          A
+        </div>
+        <a href="#" class="text-xl font-bold tracking-tight text-slate-900">Aura<span class="text-indigo-600">Store</span></a>
+      </div>
+
+      <!-- Nav Links -->
+      <nav class="hidden md:flex items-center gap-8">
+        <a href="#featured" class="text-sm font-semibold text-slate-700 hover:text-indigo-600 transition">Featured</a>
+        <a href="#audio" class="text-sm font-medium text-slate-600 hover:text-indigo-600 transition">Audio</a>
+        <a href="#wearables" class="text-sm font-medium text-slate-600 hover:text-indigo-600 transition">Wearables</a>
+        <a href="#accessories" class="text-sm font-medium text-slate-600 hover:text-indigo-600 transition">Accessories</a>
+        <a href="#deals" class="text-sm font-medium text-rose-600 hover:text-rose-700 transition flex items-center gap-1">
+          <i class="fa-solid fa-bolt text-xs"></i> Hot Deals
+        </a>
+      </nav>
+
+      <!-- Actions -->
+      <div class="flex items-center gap-4">
+        <!-- Search bar -->
+        <div class="relative hidden sm:block w-64">
+          <input
+            id="search-input"
+            type="text"
+            placeholder="Search audio, watches..."
+            class="w-full bg-slate-100 border border-transparent focus:border-indigo-500 focus:bg-white rounded-lg pl-9 pr-4 py-1.5 text-sm outline-none transition"
+          />
+          <i class="fa-solid fa-magnifying-glass absolute left-3 top-2.5 text-slate-400 text-xs"></i>
+        </div>
+
+        <!-- Wishlist -->
+        <button id="btn-wishlist" class="p-2 text-slate-600 hover:text-indigo-600 rounded-lg hover:bg-slate-100 transition relative">
+          <i class="fa-regular fa-heart"></i>
+        </button>
+
+        <!-- Cart Button -->
+        <button id="btn-cart" class="p-2 text-slate-700 hover:text-indigo-600 rounded-lg hover:bg-slate-100 transition relative flex items-center gap-2">
+          <div class="relative">
+            <i class="fa-solid fa-cart-shopping text-lg"></i>
+            <span id="cart-badge" class="absolute -top-1.5 -right-2 bg-indigo-600 text-white text-[10px] font-bold w-4 h-4 rounded-full flex items-center justify-center">0</span>
+          </div>
+          <span class="text-sm font-semibold hidden lg:inline">Cart</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="relative bg-gradient-to-br from-indigo-900 via-indigo-800 to-slate-900 text-white py-16 px-4 sm:px-6 lg:px-8 overflow-hidden">
+    <div class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+      <div class="space-y-6">
+        <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-indigo-500/30 text-indigo-200 border border-indigo-400/30">
+          <i class="fa-solid fa-sparkles"></i> Next-Generation Sound
+        </span>
+        <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight leading-tight">
+          Spatial Clarity, <br />
+          <span class="text-transparent bg-clip-text bg-gradient-to-r from-indigo-300 via-sky-300 to-emerald-300">Pure Immersion.</span>
+        </h1>
+        <p class="text-indigo-100 text-base sm:text-lg max-w-xl">
+          Engineered with bespoke acoustic drivers and active adaptive noise cancellation. Experience studio-grade playback wherever you go.
+        </p>
+        <div class="flex flex-wrap items-center gap-4 pt-2">
+          <button id="hero-cta-primary" class="bg-indigo-500 hover:bg-indigo-400 text-white font-semibold px-6 py-3 rounded-xl shadow-lg shadow-indigo-500/30 transition transform hover:-translate-y-0.5 active:translate-y-0 flex items-center gap-2">
+            <span>Shop New Arrivals</span>
+            <i class="fa-solid fa-arrow-right text-xs"></i>
+          </button>
+          <button id="hero-cta-secondary" class="bg-white/10 hover:bg-white/20 text-white font-semibold px-6 py-3 rounded-xl backdrop-blur border border-white/20 transition">
+            Explore Features
+          </button>
+        </div>
+      </div>
+
+      <!-- Hero Visual -->
+      <div class="relative flex justify-center">
+        <div class="w-80 h-80 sm:w-96 sm:h-96 rounded-3xl bg-indigo-500/10 border border-white/10 p-6 flex flex-col justify-between backdrop-blur-sm shadow-2xl">
+          <div class="flex justify-between items-start">
+            <span class="text-xs uppercase tracking-wider text-indigo-300 font-bold">Featured Flagship</span>
+            <span class="bg-emerald-500/20 text-emerald-300 text-xs px-2 py-0.5 rounded font-medium border border-emerald-500/30">In Stock</span>
+          </div>
+          <div class="text-center py-6">
+            <div class="w-40 h-40 mx-auto rounded-full bg-gradient-to-tr from-indigo-500 to-sky-400 flex items-center justify-center text-white text-5xl shadow-inner">
+              <i class="fa-solid fa-headphones"></i>
+            </div>
+            <h3 class="text-xl font-bold mt-4">Aura Pro Wireless</h3>
+            <p class="text-indigo-200 text-sm">$299.00 USD</p>
+          </div>
+          <button id="hero-quick-buy" class="w-full bg-white text-slate-900 font-bold py-2.5 rounded-lg hover:bg-indigo-50 transition text-sm">
+            Quick Buy
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Category Filter Pills -->
+  <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-10 pb-4">
+    <div class="flex items-center justify-between border-b border-slate-200 pb-4">
+      <div class="flex items-center gap-2 overflow-x-auto pb-2 sm:pb-0" id="filter-container">
+        <button data-cat="all" class="cat-pill active bg-indigo-600 text-white px-4 py-1.5 rounded-full text-xs font-semibold shadow-sm transition">All Products</button>
+        <button data-cat="audio" class="cat-pill bg-white text-slate-600 hover:bg-slate-100 border border-slate-200 px-4 py-1.5 rounded-full text-xs font-medium transition">Audio</button>
+        <button data-cat="wearable" class="cat-pill bg-white text-slate-600 hover:bg-slate-100 border border-slate-200 px-4 py-1.5 rounded-full text-xs font-medium transition">Wearables</button>
+        <button data-cat="accessories" class="cat-pill bg-white text-slate-600 hover:bg-slate-100 border border-slate-200 px-4 py-1.5 rounded-full text-xs font-medium transition">Accessories</button>
+      </div>
+      <div class="text-xs text-slate-500 font-medium hidden sm:block">
+        Showing <span id="product-count" class="font-bold text-slate-800">6</span> items
+      </div>
+    </div>
+  </section>
+
+  <!-- Products Grid -->
+  <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 flex-1">
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8" id="product-grid">
+
+      <!-- Product 1 -->
+      <div class="product-card bg-white rounded-2xl border border-slate-200 shadow-sm hover:shadow-md transition p-5 flex flex-col justify-between group">
+        <div>
+          <div class="relative bg-slate-100 rounded-xl h-52 flex items-center justify-center overflow-hidden mb-4">
+            <span class="absolute top-3 left-3 bg-indigo-100 text-indigo-700 text-[11px] font-bold px-2 py-0.5 rounded">Best Seller</span>
+            <div class="text-slate-400 group-hover:scale-110 transition duration-300 text-6xl text-indigo-500">
+              <i class="fa-solid fa-headphones"></i>
+            </div>
+            <button class="btn-like absolute top-3 right-3 w-8 h-8 rounded-full bg-white/80 hover:bg-white text-slate-500 hover:text-rose-500 flex items-center justify-center transition shadow-sm">
+              <i class="fa-regular fa-heart text-xs"></i>
+            </button>
+          </div>
+          <div class="flex items-center gap-1 text-amber-400 text-xs mb-1">
+            <i class="fa-solid fa-star"></i>
+            <i class="fa-solid fa-star"></i>
+            <i class="fa-solid fa-star"></i>
+            <i class="fa-solid fa-star"></i>
+            <i class="fa-solid fa-star-half-stroke"></i>
+            <span class="text-slate-500 text-xs ml-1">(128)</span>
+          </div>
+          <h3 class="font-bold text-slate-900 group-hover:text-indigo-600 transition">Aura Pro Noise Cancelling Headphones</h3>
+          <p class="text-slate-500 text-xs mt-1">40-hour battery life with ultra-plush memory foam cushions.</p>
+        </div>
+        <div class="mt-5 pt-4 border-t border-slate-100 flex items-center justify-between">
+          <div>
+            <span class="text-xs text-slate-400 block">Price</span>
+            <span class="text-lg font-bold text-slate-900">$299.00</span>
+          </div>
+          <button data-product="Aura Pro Headphones" class="btn-add-cart bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-semibold px-4 py-2.5 rounded-xl transition flex items-center gap-1.5 shadow-sm active:scale-95">
+            <i class="fa-solid fa-cart-plus"></i> Add to Cart
+          </button>
+        </div>
+      </div>
+
+      <!-- Product 2 -->
+      <div class="product-card bg-white rounded-2xl border border-slate-200 shadow-sm hover:shadow-md transition p-5 flex flex-col justify-between group">
+        <div>
+          <div class="relative bg-slate-100 rounded-xl h-52 flex items-center justify-center overflow-hidden mb-4">
+            <span class="absolute top-3 left-3 bg-emerald-100 text-emerald-700 text-[11px] font-bold px-2 py-0.5 rounded">New</span>
+            <div class="text-slate-400 group-hover:scale-110 transition duration-300 text-6xl text-sky-500">
+              <i class="fa-solid fa-stopwatch-20"></i>
+            </div>
+            <button class="btn-like absolute top-3 right-3 w-8 h-8 rounded-full bg-white/80 hover:bg-white text-slate-500 hover:text-rose-500 flex items-center justify-center transition shadow-sm">
+              <i class="fa-regular fa-heart text-xs"></i>
+            </button>
+          </div>
+          <div class="flex items-center gap-1 text-amber-400 text-xs mb-1">
+            <i class="fa-solid fa-star"></i>
+            <i class="fa-solid fa-star"></i>
+            <i class="fa-solid fa-star"></i>
+            <i class="fa-solid fa-star"></i>
+            <i class="fa-solid fa-star"></i>
+            <span class="text-slate-500 text-xs ml-1">(84)</span>
+          </div>
+          <h3 class="font-bold text-slate-900 group-hover:text-indigo-600 transition">Aura Chrono Smartwatch Series 5</h3>
+          <p class="text-slate-500 text-xs mt-1">ECG monitoring, sleep tracking, and sapphire crystal AMOLED display.</p>
+        </div>
+        <div class="mt-5 pt-4 border-t border-slate-100 flex items-center justify-between">
+          <div>
+            <span class="text-xs text-slate-400 block">Price</span>
+            <span class="text-lg font-bold text-slate-900">$349.00</span>
+          </div>
+          <button data-product="Aura Chrono Watch" class="btn-add-cart bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-semibold px-4 py-2.5 rounded-xl transition flex items-center gap-1.5 shadow-sm active:scale-95">
+            <i class="fa-solid fa-cart-plus"></i> Add to Cart
+          </button>
+        </div>
+      </div>
+
+      <!-- Product 3 -->
+      <div class="product-card bg-white rounded-2xl border border-slate-200 shadow-sm hover:shadow-md transition p-5 flex flex-col justify-between group">
+        <div>
+          <div class="relative bg-slate-100 rounded-xl h-52 flex items-center justify-center overflow-hidden mb-4">
+            <div class="text-slate-400 group-hover:scale-110 transition duration-300 text-6xl text-violet-500">
+              <i class="fa-solid fa-compact-disc"></i>
+            </div>
+            <button class="btn-like absolute top-3 right-3 w-8 h-8 rounded-full bg-white/80 hover:bg-white text-slate-500 hover:text-rose-500 flex items-center justify-center transition shadow-sm">
+              <i class="fa-regular fa-heart text-xs"></i>
+            </button>
+          </div>
+          <div class="flex items-center gap-1 text-amber-400 text-xs mb-1">
+            <i class="fa-solid fa-star"></i>
+            <i class="fa-solid fa-star"></i>
+            <i class="fa-solid fa-star"></i>
+            <i class="fa-solid fa-star"></i>
+            <i class="fa-regular fa-star"></i>
+            <span class="text-slate-500 text-xs ml-1">(42)</span>
+          </div>
+          <h3 class="font-bold text-slate-900 group-hover:text-indigo-600 transition">Aura SoundCore Hi-Res Bluetooth Speaker</h3>
+          <p class="text-slate-500 text-xs mt-1">360-degree room filling audio with dual passive radiators.</p>
+        </div>
+        <div class="mt-5 pt-4 border-t border-slate-100 flex items-center justify-between">
+          <div>
+            <span class="text-xs text-slate-400 block">Price</span>
+            <span class="text-lg font-bold text-slate-900">$179.00</span>
+          </div>
+          <button data-product="Aura SoundCore Speaker" class="btn-add-cart bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-semibold px-4 py-2.5 rounded-xl transition flex items-center gap-1.5 shadow-sm active:scale-95">
+            <i class="fa-solid fa-cart-plus"></i> Add to Cart
+          </button>
+        </div>
+      </div>
+
+      <!-- Product 4 -->
+      <div class="product-card bg-white rounded-2xl border border-slate-200 shadow-sm hover:shadow-md transition p-5 flex flex-col justify-between group">
+        <div>
+          <div class="relative bg-slate-100 rounded-xl h-52 flex items-center justify-center overflow-hidden mb-4">
+            <span class="absolute top-3 left-3 bg-rose-100 text-rose-700 text-[11px] font-bold px-2 py-0.5 rounded">-15% OFF</span>
+            <div class="text-slate-400 group-hover:scale-110 transition duration-300 text-6xl text-amber-500">
+              <i class="fa-solid fa-bolt-lightning"></i>
+            </div>
+            <button class="btn-like absolute top-3 right-3 w-8 h-8 rounded-full bg-white/80 hover:bg-white text-slate-500 hover:text-rose-500 flex items-center justify-center transition shadow-sm">
+              <i class="fa-regular fa-heart text-xs"></i>
+            </button>
+          </div>
+          <div class="flex items-center gap-1 text-amber-400 text-xs mb-1">
+            <i class="fa-solid fa-star"></i>
+            <i class="fa-solid fa-star"></i>
+            <i class="fa-solid fa-star"></i>
+            <i class="fa-solid fa-star"></i>
+            <i class="fa-solid fa-star"></i>
+            <span class="text-slate-500 text-xs ml-1">(210)</span>
+          </div>
+          <h3 class="font-bold text-slate-900 group-hover:text-indigo-600 transition">MagCharge 3-in-1 Fast Wireless Stand</h3>
+          <p class="text-slate-500 text-xs mt-1">Simultaneously charge phone, smartwatch, and wireless earbuds.</p>
+        </div>
+        <div class="mt-5 pt-4 border-t border-slate-100 flex items-center justify-between">
+          <div>
+            <span class="text-xs text-slate-400 line-through">$105.00</span>
+            <span class="text-lg font-bold text-slate-900">$89.00</span>
+          </div>
+          <button data-product="MagCharge Stand" class="btn-add-cart bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-semibold px-4 py-2.5 rounded-xl transition flex items-center gap-1.5 shadow-sm active:scale-95">
+            <i class="fa-solid fa-cart-plus"></i> Add to Cart
+          </button>
+        </div>
+      </div>
+
+      <!-- Product 5 -->
+      <div class="product-card bg-white rounded-2xl border border-slate-200 shadow-sm hover:shadow-md transition p-5 flex flex-col justify-between group">
+        <div>
+          <div class="relative bg-slate-100 rounded-xl h-52 flex items-center justify-center overflow-hidden mb-4">
+            <div class="text-slate-400 group-hover:scale-110 transition duration-300 text-6xl text-teal-500">
+              <i class="fa-solid fa-keyboard"></i>
+            </div>
+            <button class="btn-like absolute top-3 right-3 w-8 h-8 rounded-full bg-white/80 hover:bg-white text-slate-500 hover:text-rose-500 flex items-center justify-center transition shadow-sm">
+              <i class="fa-regular fa-heart text-xs"></i>
+            </button>
+          </div>
+          <div class="flex items-center gap-1 text-amber-400 text-xs mb-1">
+            <i class="fa-solid fa-star"></i>
+            <i class="fa-solid fa-star"></i>
+            <i class="fa-solid fa-star"></i>
+            <i class="fa-solid fa-star"></i>
+            <i class="fa-solid fa-star-half-stroke"></i>
+            <span class="text-slate-500 text-xs ml-1">(56)</span>
+          </div>
+          <h3 class="font-bold text-slate-900 group-hover:text-indigo-600 transition">Aura Flow Mechanical Wireless Keyboard</h3>
+          <p class="text-slate-500 text-xs mt-1">Hot-swappable tactile switches with anodized aluminum body.</p>
+        </div>
+        <div class="mt-5 pt-4 border-t border-slate-100 flex items-center justify-between">
+          <div>
+            <span class="text-xs text-slate-400 block">Price</span>
+            <span class="text-lg font-bold text-slate-900">$149.00</span>
+          </div>
+          <button data-product="Mechanical Keyboard" class="btn-add-cart bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-semibold px-4 py-2.5 rounded-xl transition flex items-center gap-1.5 shadow-sm active:scale-95">
+            <i class="fa-solid fa-cart-plus"></i> Add to Cart
+          </button>
+        </div>
+      </div>
+
+      <!-- Product 6 -->
+      <div class="product-card bg-white rounded-2xl border border-slate-200 shadow-sm hover:shadow-md transition p-5 flex flex-col justify-between group">
+        <div>
+          <div class="relative bg-slate-100 rounded-xl h-52 flex items-center justify-center overflow-hidden mb-4">
+            <div class="text-slate-400 group-hover:scale-110 transition duration-300 text-6xl text-rose-500">
+              <i class="fa-solid fa-shield-halved"></i>
+            </div>
+            <button class="btn-like absolute top-3 right-3 w-8 h-8 rounded-full bg-white/80 hover:bg-white text-slate-500 hover:text-rose-500 flex items-center justify-center transition shadow-sm">
+              <i class="fa-regular fa-heart text-xs"></i>
+            </button>
+          </div>
+          <div class="flex items-center gap-1 text-amber-400 text-xs mb-1">
+            <i class="fa-solid fa-star"></i>
+            <i class="fa-solid fa-star"></i>
+            <i class="fa-solid fa-star"></i>
+            <i class="fa-solid fa-star"></i>
+            <i class="fa-solid fa-star"></i>
+            <span class="text-slate-500 text-xs ml-1">(95)</span>
+          </div>
+          <h3 class="font-bold text-slate-900 group-hover:text-indigo-600 transition">Aura Shield Kevlar Sleeve & Organizer</h3>
+          <p class="text-slate-500 text-xs mt-1">Water-repellent protective carrying sleeve with accessory pockets.</p>
+        </div>
+        <div class="mt-5 pt-4 border-t border-slate-100 flex items-center justify-between">
+          <div>
+            <span class="text-xs text-slate-400 block">Price</span>
+            <span class="text-lg font-bold text-slate-900">$59.00</span>
+          </div>
+          <button data-product="Kevlar Sleeve" class="btn-add-cart bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-semibold px-4 py-2.5 rounded-xl transition flex items-center gap-1.5 shadow-sm active:scale-95">
+            <i class="fa-solid fa-cart-plus"></i> Add to Cart
+          </button>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- Newsletter Section -->
+  <section class="bg-indigo-50 border-t border-b border-indigo-100 py-12 px-4 sm:px-6 lg:px-8 mt-12">
+    <div class="max-w-3xl mx-auto text-center space-y-4">
+      <h2 class="text-2xl font-bold text-slate-900">Get early access to future drops</h2>
+      <p class="text-sm text-slate-600">Subscribe for member-only invites, product teasers, and secret sales.</p>
+      <form id="newsletter-form" class="flex flex-col sm:flex-row gap-2 justify-center max-w-md mx-auto pt-2" onsubmit="event.preventDefault();">
+        <input
+          id="newsletter-email"
+          type="email"
+          placeholder="Enter your email address"
+          class="bg-white border border-slate-300 rounded-xl px-4 py-2.5 text-sm outline-none focus:border-indigo-600 flex-1"
+        />
+        <button id="btn-subscribe" type="submit" class="bg-indigo-600 hover:bg-indigo-700 text-white font-semibold px-6 py-2.5 rounded-xl text-sm transition">
+          Subscribe
+        </button>
+      </form>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="bg-white border-t border-slate-200 py-8 px-4 text-center text-xs text-slate-500">
+    <p>&copy; 2026 AuraStore Demo. Integrated with CausalFunnel Analytics Tracker.</p>
+  </footer>
+
+  <!-- Floating Analytics HUD for verification & testing -->
+  <div class="fixed bottom-4 right-4 z-50 bg-slate-900/90 backdrop-blur-md text-white p-3.5 rounded-2xl shadow-2xl border border-slate-700 max-w-sm text-xs font-mono space-y-2">
+    <div class="flex items-center justify-between border-b border-slate-800 pb-2">
+      <div class="flex items-center gap-1.5">
+        <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+        <span class="font-bold text-slate-200">Analytics Live HUD</span>
+      </div>
+      <a href="http://localhost:5173" target="_blank" class="text-indigo-400 hover:underline flex items-center gap-1 font-sans font-medium text-[11px]">
+        Dashboard <i class="fa-solid fa-arrow-up-right-from-square text-[9px]"></i>
+      </a>
+    </div>
+    <div class="space-y-1 text-[11px] text-slate-300">
+      <div>Session: <span id="hud-session-id" class="text-indigo-300 font-bold truncate block"></span></div>
+      <div class="flex justify-between">
+        <span>Clicks Recorded: <span id="hud-clicks" class="text-emerald-400 font-bold">0</span></span>
+        <span>Last: <span id="hud-coords" class="text-amber-300">-</span></span>
+      </div>
+    </div>
+    <div class="pt-1 flex gap-2">
+      <button id="hud-reset-session" class="w-full bg-slate-800 hover:bg-slate-700 text-slate-300 text-[10px] py-1 px-2 rounded border border-slate-700 transition">
+        Reset Session ID
+      </button>
+    </div>
+  </div>
+
+  <!-- Toast Notification Container -->
+  <div id="toast" class="fixed top-20 right-4 z-50 transform translate-x-full transition-transform duration-300 bg-slate-900 text-white px-4 py-3 rounded-xl shadow-lg border border-slate-800 flex items-center gap-2 text-sm pointer-events-none">
+    <i class="fa-solid fa-circle-check text-emerald-400"></i>
+    <span id="toast-message">Added to cart!</span>
+  </div>
+
+  <!-- Include Analytics Tracker Script -->
+  <script src="./tracker.js"></script>
+  <script>
+    // Initialize the Analytics Tracker
+    AnalyticsTracker.init({
+      apiUrl: 'http://localhost:5000/api/events',
+      debug: true
+    });
+
+    // Update HUD with live session ID
+    var hudSession = document.getElementById('hud-session-id');
+    var hudClicks = document.getElementById('hud-clicks');
+    var hudCoords = document.getElementById('hud-coords');
+    var clickCount = 0;
+
+    if (hudSession) {
+      hudSession.textContent = AnalyticsTracker.getSessionId();
+    }
+
+    // Update HUD stats on every click
+    document.addEventListener('click', function(e) {
+      clickCount++;
+      if (hudClicks) hudClicks.textContent = clickCount;
+      if (hudCoords) hudCoords.textContent = 'x:' + e.pageX + ', y:' + e.pageY;
+    }, true);
+
+    // Reset session button
+    document.getElementById('hud-reset-session')?.addEventListener('click', function(e) {
+      e.stopPropagation();
+      var newId = AnalyticsTracker.resetSession();
+      if (hudSession) hudSession.textContent = newId;
+      showToast('New session started: ' + newId.substring(0, 16) + '...');
+    });
+
+    // Toast helper
+    function showToast(msg) {
+      var toast = document.getElementById('toast');
+      var toastMsg = document.getElementById('toast-message');
+      if (!toast || !toastMsg) return;
+      toastMsg.textContent = msg;
+      toast.classList.remove('translate-x-full');
+      setTimeout(function() {
+        toast.classList.add('translate-x-full');
+      }, 2500);
+    }
+
+    // Interactive Demo UI handlers
+    var cartCount = 0;
+    var cartBadge = document.getElementById('cart-badge');
+    document.querySelectorAll('.btn-add-cart').forEach(function(btn) {
+      btn.addEventListener('click', function() {
+        cartCount++;
+        if (cartBadge) cartBadge.textContent = cartCount;
+        showToast('Added ' + (this.getAttribute('data-product') || 'item') + ' to cart!');
+      });
+    });
+
+    document.querySelectorAll('.btn-like').forEach(function(btn) {
+      btn.addEventListener('click', function() {
+        this.classList.toggle('text-rose-500');
+        showToast('Saved to wishlist!');
+      });
+    });
+
+    document.getElementById('btn-subscribe')?.addEventListener('click', function() {
+      var input = document.getElementById('newsletter-email');
+      if (input && input.value) {
+        showToast('Subscribed with ' + input.value + '!');
+        input.value = '';
+      }
+    });
+
+    // Category pills filter demonstration
+    document.querySelectorAll('.cat-pill').forEach(function(pill) {
+      pill.addEventListener('click', function() {
+        document.querySelectorAll('.cat-pill').forEach(function(p) {
+          p.classList.remove('active', 'bg-indigo-600', 'text-white');
+          p.classList.add('bg-white', 'text-slate-600');
+        });
+        this.classList.add('active', 'bg-indigo-600', 'text-white');
+        this.classList.remove('bg-white', 'text-slate-600');
+      });
+    });
+  </script>
+</body>
+</html>

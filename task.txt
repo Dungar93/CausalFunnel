@@ -1,0 +1,396 @@
+# Build a Complete Full-Stack User Analytics Application
+
+Act as a senior full-stack engineer. Build a complete, functional, polished full-stack application for the CausalFunnel Full Stack Engineer assignment.
+
+## 1. Objective
+
+Build a simplified website analytics platform that tracks user interactions through a reusable JavaScript tracking script and displays them in an analytics dashboard.
+
+The application must support:
+- Tracking page views and clicks.
+- Generating and maintaining session IDs.
+- Sending events to a backend.
+- Persisting events in MongoDB.
+- Displaying sessions and chronological user journeys.
+- Visualizing click positions in a heatmap.
+
+Do not create only a UI prototype. Implement the frontend, backend, database integration, tracking script, and working API connections.
+
+## 2. Tech Stack
+
+Use the following stack:
+
+- Frontend: React with Vite.
+- Styling: Tailwind CSS.
+- Routing: React Router.
+- Icons: Lucide React.
+- Backend: Node.js with Express.js.
+- Database: MongoDB using Mongoose or the official MongoDB driver.
+- Charts: Recharts where appropriate.
+- Heatmap: HTML Canvas or SVG.
+- Testing: Vitest and React Testing Library for frontend tests, and an appropriate Node.js testing library for backend tests.
+
+Use JavaScript throughout unless TypeScript provides a clear benefit.
+
+The project must run locally without paid services. Support a local MongoDB instance and, optionally, MongoDB Atlas through an environment variable.
+
+## 3. Project Structure
+
+Create a clean monorepo with this general structure:
+
+/
+  client/
+    src/
+      components/
+      pages/
+      hooks/
+      services/
+      layouts/
+      utils/
+    public/
+    package.json
+    vite.config.js
+  server/
+    src/
+      config/
+      controllers/
+      routes/
+      models/
+      services/
+      middleware/
+      app.js
+      server.js
+    tests/
+    package.json
+  tracker/
+    tracker.js
+    demo.html
+  .env.example
+  .gitignore
+  package.json
+  README.md
+
+You may adjust the structure when justified, but maintain clear separation between the frontend, backend, and tracking script.
+
+Provide a root-level setup that makes running both frontend and backend straightforward.
+
+## 4. Tracking Script
+
+Implement a reusable JavaScript tracking script at `tracker/tracker.js`.
+
+It must be possible to include the script on a webpage using a normal script tag.
+
+Example configuration:
+
+AnalyticsTracker.init({
+  apiUrl: "http://localhost:5000/api/events"
+});
+
+Implement the following functionality:
+
+### Session management
+- Generate a unique session ID if one does not already exist.
+- Persist it in localStorage.
+- Reuse the same ID across page navigation and reloads.
+- Do not create a new ID on every click.
+- Handle unavailable storage gracefully.
+
+### Event tracking
+Automatically record:
+1. `page_view` when the page loads.
+2. `click` when a user clicks anywhere on the page.
+
+Each event must include:
+- session_id
+- event_type
+- page_url
+- timestamp
+
+Click events must additionally include:
+- coordinates.x
+- coordinates.y
+
+Also capture viewport width and height when practical so the heatmap can account for different screen sizes.
+
+Use document-relative coordinates consistently and document the coordinate convention in the README. Avoid collecting unnecessary personal information or form contents.
+
+### Network requests
+- Send events to the backend API.
+- Handle network failures without crashing the webpage.
+- Use `fetch` or `navigator.sendBeacon` appropriately.
+- Avoid duplicate listeners and duplicate page-view events.
+- Ensure the tracker does not interfere with the host website.
+- Allow the tracking script to be initialized safely and provide clear configuration errors.
+
+Document how to embed the tracker on another website.
+
+## 5. MongoDB Data Model
+
+Create an Event model with the following fields:
+
+- session_id: required string, indexed.
+- event_type: enum containing `page_view` and `click`.
+- page_url: required string, indexed.
+- timestamp: required Date.
+- coordinates: optional object containing numeric x and y.
+- viewport: optional object containing numeric width and height.
+- createdAt: server-generated creation timestamp.
+
+For page views, coordinates may be absent. For clicks, coordinates are required.
+
+Add indexes that support retrieving events by session and time, as well as retrieving clicks by page URL.
+
+Validate incoming payloads and reject malformed events with clear HTTP error responses.
+
+Do not store the same event in multiple collections unnecessarily. Derive sessions from stored events unless a separate session model is genuinely needed.
+
+## 6. Backend REST APIs
+
+Use Express.js and implement the following endpoints:
+
+### POST /api/events
+- Accept a tracking event.
+- Validate its schema.
+- Store it in MongoDB.
+- Return an appropriate success response.
+- Return meaningful 4xx errors for invalid payloads.
+- Handle database failures gracefully.
+
+### GET /api/sessions
+Return sessions grouped by session_id.
+
+For each session, include:
+- session_id
+- total_events
+- page_views
+- clicks
+- first_activity
+- last_activity
+
+Sort sessions by most recent activity first.
+
+Use MongoDB aggregation rather than loading the entire event collection into application memory. Add pagination with sensible defaults.
+
+### GET /api/sessions/:sessionId/events
+- Return all events for the requested session.
+- Sort them chronologically.
+- Return event type, URL, timestamp, coordinates, and viewport information.
+- Handle empty or unknown sessions correctly.
+
+### GET /api/heatmap?url=...
+- Accept a page URL as a query parameter.
+- Retrieve click events for that page.
+- Return coordinates and viewport information.
+- Return a useful empty response if there are no clicks.
+
+Handle URL encoding correctly.
+
+### GET /api/health
+Return the API status and database connectivity status.
+
+Also implement centralized error handling, request validation, appropriate CORS configuration, and basic protection against oversized request bodies.
+
+Do not add authentication unless necessary for a clearly documented reason; this is a local assignment project.
+
+## 7. Dashboard Design
+
+Build a professional analytics dashboard inspired by modern SaaS products.
+
+Use a clean white or neutral background, restrained accent colors, consistent spacing, readable typography, subtle borders, rounded cards, and a responsive layout.
+
+Include:
+- A sidebar with Sessions and Heatmap navigation.
+- A header with the page title and API/database status.
+- Loading states.
+- Empty states.
+- Error states with retry options.
+- Responsive layouts for desktop and mobile.
+- Consistent buttons, tables, badges, and icons.
+
+Avoid excessive gradients, unnecessary animations, and decorative components that make the interface harder to use.
+
+### A. Sessions page
+
+Display summary cards for:
+- Total sessions.
+- Total events.
+- Total page views.
+- Total clicks.
+
+Use backend-derived data rather than hardcoded statistics.
+
+Create a sessions table with:
+- Session ID.
+- Total events.
+- Page views.
+- Clicks.
+- First activity.
+- Last activity.
+
+Requirements:
+- Sort sessions by most recent activity.
+- Support pagination.
+- Provide a refresh action.
+- Display an appropriate empty state when no sessions exist.
+- Make each session row clickable.
+
+When a user selects a session, show a session-detail view or side panel with a chronological user journey.
+
+For each event, show:
+- Event type.
+- Page URL.
+- Timestamp.
+- Click coordinates when available.
+
+Visually distinguish page views from clicks and make the timeline easy to follow.
+
+### B. Heatmap page
+
+Create a dedicated heatmap view.
+
+Requirements:
+- Provide a dropdown or selector populated with distinct page URLs returned by the backend.
+- Load click data for the selected page.
+- Show the selected page's click positions on a consistent page representation.
+- Render clicks as visible markers.
+- Increase marker size or intensity where multiple clicks occur close together.
+- Provide a click count and useful page-level statistics.
+- Show an empty state if the page has no click events.
+
+For a reliable local demonstration, create a sample e-commerce page and visualize clicks on its actual layout or a consistent preview of that layout.
+
+Do not overlay arbitrary page coordinates on an unrelated screenshot.
+
+Normalize or scale coordinates using recorded viewport dimensions when needed. Keep the coordinate system consistent between tracking and rendering.
+
+If a true heatmap gradient is feasible, implement it using Canvas. Otherwise, a well-designed density visualization using SVG circles is acceptable.
+
+## 8. Demo Website
+
+Create a functional demo webpage in `tracker/demo.html` or a small React demo route.
+
+The page should resemble a simple e-commerce website and contain:
+- A navigation bar.
+- Product cards.
+- Product links.
+- Add-to-cart buttons.
+- A few other clickable UI elements.
+
+Integrate the tracking script and ensure that page views and clicks reach the backend.
+
+Include enough elements to demonstrate different click positions.
+
+If navigation between pages is implemented, ensure each page visit is recorded. Do not count a single page load twice.
+
+Clearly explain how to open the demo and generate sample analytics data.
+
+## 9. Reliability and Security
+
+- Read configuration from environment variables.
+- Provide `.env.example` with documented placeholders.
+- Never commit secrets.
+- Validate request data on the backend.
+- Restrict allowed event types.
+- Set reasonable request-size limits.
+- Handle MongoDB connection errors.
+- Prevent frontend crashes when APIs are unavailable.
+- Configure CORS for the local frontend and document how to configure it for production.
+- Avoid hardcoded analytics values.
+- Avoid storing sensitive user information.
+- Use appropriate HTTP status codes and consistent API responses.
+- Include basic logging without logging sensitive data.
+
+## 10. Testing
+
+Write tests for important functionality.
+
+Backend tests should cover:
+- Valid event ingestion.
+- Invalid event rejection.
+- Page-view and click validation.
+- Session aggregation and event counts.
+- Chronological session event retrieval.
+- Heatmap filtering by URL.
+- Empty results.
+- Database or API error handling where practical.
+
+Frontend tests should cover:
+- Rendering the sessions page.
+- Loading and empty states.
+- Session selection.
+- Rendering the event timeline.
+- Heatmap selection and marker rendering.
+- API error states.
+
+Add a manual verification procedure that demonstrates the entire flow from a browser click to MongoDB storage to dashboard visualization.
+
+Use a test database or mocked database dependencies where appropriate. Do not allow tests to delete production or development data.
+
+## 11. README
+
+Write a complete README.md containing:
+
+1. Project overview.
+2. Features.
+3. Architecture and data flow.
+4. Technology stack.
+5. Prerequisites.
+6. Installation and setup.
+7. Environment variable configuration.
+8. MongoDB setup.
+9. Commands to start the frontend and backend.
+10. Instructions to run the demo website.
+11. API endpoint documentation with example requests and responses.
+12. Event schema.
+13. How to embed the tracking script on another webpage.
+14. How to run tests.
+15. Known limitations and design trade-offs.
+16. Deployment instructions.
+17. Screenshots section with placeholders until real screenshots are available.
+
+Include a root `.env.example` or clearly separated environment examples for the frontend and backend, as required by the build setup.
+
+## 12. Execution Plan
+
+Work in these stages:
+
+Stage 1: Inspect the environment and create the project structure and dependencies.
+
+Stage 2: Implement MongoDB configuration, event model, validation, and backend APIs.
+
+Stage 3: Implement the tracking script and a functional demo website.
+
+Stage 4: Implement the dashboard layout, sessions table, user journey, and heatmap.
+
+Stage 5: Connect all frontend views to real backend endpoints.
+
+Stage 6: Add automated tests, error handling, and loading and empty states.
+
+Stage 7: Run the application, execute tests, fix build/runtime issues, and verify the complete event flow.
+
+Stage 8: Finish the README and provide a concise summary of the implementation.
+
+After each stage, verify the relevant files and functionality before moving on.
+
+## 13. Definition of Done
+
+The project is complete only when:
+
+- The frontend and backend start successfully.
+- MongoDB persists events.
+- Loading the demo page generates a page_view event.
+- Clicking demo elements generates click events with coordinates.
+- Events are visible in MongoDB.
+- The sessions endpoint returns accurate aggregated counts.
+- Selecting a session displays its chronological event history.
+- Selecting a page in the heatmap displays the corresponding click positions.
+- The dashboard uses actual API data.
+- Loading, empty, and error states work.
+- Automated tests pass.
+- The README contains accurate setup and usage instructions.
+
+Do not claim that tests or features work unless you have actually run and verified them.
+
+Begin by examining the existing workspace. If the workspace is empty, create the project from scratch. If files already exist, inspect them and preserve useful working code.
+
+Implement the application fully, prioritizing correctness, maintainability, a professional UI, and a successful end-to-end demonstration over unnecessary complexity.
